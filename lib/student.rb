@@ -77,7 +77,7 @@ class Student
       WHERE grade < 12 
     SQL
     binding.pry 
-    DB[:conn].execute(sql)
+    DB[:conn].execute(sql).map { |row| row }
   end 
 
   def self.first_student_in_grade_10
