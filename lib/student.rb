@@ -70,5 +70,36 @@ class Student
     DB[:conn].execute(sql)
   end 
   
-  def self.
+def self.students_below_12th_grade
+    sql = <<-SQL
+       SELECT COUNT(grade > 10) FROM students
+    SQL
+    DB[:conn].execute(sql)
+    # binding.pry
+  end
+
+  def self.first_X_students_in_grade_10(x)
+    sql = <<-SQL
+       SELECT * FROM students WHERE grade = 10 LIMIT ?
+    SQL
+
+    s = DB[:conn].execute(sql, x)
+    # binding.pry
+  end
+
+  def self.first_student_in_grade_10
+    s = self.first_X_students_in_grade_10(1)
+    s.map do |i|
+      self.new_from_db(i)
+    end[0]
+  end
+
+  def self.all_students_in_grade_X(grade)
+    sql = <<-SQL
+       SELECT * FROM students WHERE grade = ?
+    SQL
+
+    DB[:conn].execute(sql, grade)
+  end
+
 end
